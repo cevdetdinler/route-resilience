@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Chelsea and Westminster Hospital (A&E)",
+    "category": "Hospital",
+    "side": "North bank (Chelsea)",
+    "address": "369 Fulham Road, London SW10 9NH",
+    "latitude": 51.484309,
+    "longitude": -0.18162,
+    "coord_source": "postcodes.io centroid for SW10 9NH"
+  },
+  {
+    "name": "Royal Brompton Hospital",
+    "category": "Hospital",
+    "side": "North bank (Chelsea)",
+    "address": "Sydney Street, London SW3",
+    "latitude": 51.4894,
+    "longitude": -0.1707,
+    "coord_source": "Wikipedia infobox"
+  },
+  {
+    "name": "Chelsea Fire Station",
+    "category": "Fire station",
+    "side": "North bank (Chelsea)",
+    "address": "264 King's Road, London SW3",
+    "latitude": 51.48715,
+    "longitude": -0.17029,
+    "coord_source": "Wikipedia infobox"
+  },
+  {
+    "name": "Battersea Fire Station",
+    "category": "Fire station",
+    "side": "South bank (Battersea)",
+    "address": "11 Este Road, London SW11 2TL",
+    "latitude": 51.467306,
+    "longitude": -0.168992,
+    "coord_source": "postcodes.io centroid for SW11 2TL"
+  },
+  {
+    "name": "Battersea Park",
+    "category": "Landmark",
+    "side": "South bank (Battersea)",
+    "address": "Battersea Park, London SW11",
+    "latitude": 51.4793,
+    "longitude": -0.1573,
+    "coord_source": "Wikipedia infobox"
+  },
+  {
+    "name": "Battersea Power Station",
+    "category": "Landmark",
+    "side": "South bank (Battersea)",
+    "address": "Circus Road West, London SW11",
+    "latitude": 51.48167,
+    "longitude": -0.14472,
+    "coord_source": "Wikipedia infobox"
+  },
+  {
+    "name": "Clapham Junction station",
+    "category": "Transport hub",
+    "side": "South bank (Battersea)",
+    "address": "St John's Hill, London SW11",
+    "latitude": 51.4642,
+    "longitude": -0.1714,
+    "coord_source": "Wikipedia infobox"
+  }
+]

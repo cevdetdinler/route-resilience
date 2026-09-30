@@ -1,0 +1,261 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Inter;font-weight:400;src:url(fonts/inter-latin-400-normal.woff2)}
+@font-face{font-family:Inter;font-weight:600;src:url(fonts/inter-latin-600-normal.woff2)}
+@font-face{font-family:Inter;font-weight:800;src:url(fonts/inter-latin-800-normal.woff2)}
+@font-face{font-family:Inter;font-weight:900;src:url(fonts/inter-latin-900-normal.woff2)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#070B16;font-family:Inter,sans-serif;color:#EAF0FF}
+#stage{position:absolute;inset:0;overflow:hidden}
+svg{position:absolute;inset:0}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 45%,rgba(3,5,12,.75) 100%)}
+.ui{position:absolute;will-change:transform,opacity}
+#brandbar{left:56px;top:44px;display:flex;align-items:center;gap:14px}
+.logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#3DD9FF,#5B6CFF);display:grid;place-items:center;box-shadow:0 0 30px rgba(61,217,255,.35)}
+.logo svg{position:static}
+#brandbar .name{font-weight:800;font-size:26px;letter-spacing:-.5px}
+#brandbar .tag{font-size:13px;font-weight:600;letter-spacing:2.5px;color:#8FA3C8;text-transform:uppercase;margin-top:2px}
+#disc{right:56px;bottom:36px;font-size:14px;color:#7D8BAA;letter-spacing:.3px;text-align:right}
+#caption{left:56px;bottom:64px;max-width:900px}
+#caption .k{font-size:15px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#3DD9FF;margin-bottom:10px}
+#caption .t{font-size:46px;font-weight:800;letter-spacing:-1.2px;line-height:1.08}
+#intro{inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#intro .big{font-size:132px;font-weight:900;letter-spacing:-5px;display:flex}
+#intro .big span{display:inline-block}
+#intro .sub{font-size:34px;font-weight:600;color:#B9C6E4;margin-top:18px;letter-spacing:-.3px}
+.grad{background:linear-gradient(90deg,#fff 0%,#9FE8FF 60%,#5B6CFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.card{background:rgba(13,19,38,.82);border:1px solid rgba(143,163,200,.22);border-radius:22px;backdrop-filter:blur(14px);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+#routecard{right:56px;top:44px;padding:22px 28px;min-width:360px}
+#routecard .l{font-size:14px;font-weight:600;letter-spacing:2.5px;color:#8FA3C8;text-transform:uppercase}
+#routecard .v{font-size:40px;font-weight:800;letter-spacing:-1px;margin-top:6px}
+#routecard .v small{font-size:22px;color:#8FA3C8;font-weight:600;margin-left:8px}
+#alert{left:50%;top:120px;transform:translateX(-50%);padding:16px 28px;border-radius:999px;background:#FF3B5C;color:#fff;font-weight:800;font-size:26px;letter-spacing:1px;display:flex;gap:14px;align-items:center;box-shadow:0 0 60px rgba(255,59,92,.55)}
+#alert .dot{width:14px;height:14px;border-radius:50%;background:#fff}
+#stats{right:56px;top:44px;display:flex;flex-direction:column;gap:16px;width:420px}
+#stats .row{display:flex;gap:16px}
+#stats .s{flex:1;padding:18px 22px}
+#stats .s .l{font-size:13px;font-weight:600;letter-spacing:2.2px;color:#8FA3C8;text-transform:uppercase}
+#stats .s .v{font-size:36px;font-weight:800;margin-top:4px;letter-spacing:-1px}
+#impact{padding:24px 28px;background:linear-gradient(135deg,#1a47ff,#3DD9FF);border:none}
+#impact .l{font-size:14px;font-weight:700;letter-spacing:2.5px;color:rgba(255,255,255,.85);text-transform:uppercase}
+#impact .v{font-size:92px;font-weight:900;letter-spacing:-4px;line-height:1;margin-top:6px;color:#fff}
+#impact .sub{font-size:18px;font-weight:600;color:rgba(255,255,255,.9);margin-top:6px}
+#claude{right:56px;bottom:64px;width:640px;padding:28px 32px}
+#claude .h{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#FFB38A}
+#claude .star{width:30px;height:30px;border-radius:8px;background:#D97757;display:grid;place-items:center;color:#fff;font-size:20px;font-weight:900}
+#claude .body{font-size:27px;line-height:1.38;font-weight:600;margin-top:16px;min-height:150px;letter-spacing:-.2px}
+#claude .cur{display:inline-block;width:3px;height:28px;background:#FFB38A;vertical-align:-4px;margin-left:2px}
+#outro{inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#outro .big{font-size:110px;font-weight:900;letter-spacing:-4px}
+#outro .sub{font-size:30px;font-weight:600;color:#B9C6E4;margin-top:14px}
+#outro .pills{display:flex;gap:14px;margin-top:34px}
+#outro .pill{padding:12px 22px;border-radius:999px;border:1px solid rgba(143,163,200,.3);font-size:22px;font-weight:700;background:rgba(13,19,38,.7)}
+#flash{inset:0;background:#FF3B5C;mix-blend-mode:screen}
+#fade{inset:0;background:#070B16}
+</style></head>
+<body><div id="stage">
+<svg id="map" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="18"/></filter>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="#1C2745"/></pattern>
+    <linearGradient id="riverg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0E2F5C"/><stop offset="1" stop-color="#123E73"/></linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="#070B16"/>
+  <rect width="1920" height="1080" fill="url(#dots)"/>
+  <g id="world"></g>
+</svg>
+<div class="vig"></div>
+<div id="flash" class="ui"></div>
+
+<div id="intro" class="ui"><div class="big" id="introWord"></div><div class="sub" id="introSub">When the Thames floods, every minute counts.</div></div>
+
+<div id="brandbar" class="ui"><div class="logo"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5l8-3z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M8 13c2-3 6-3 8 0" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></div><div><div class="name">RouteResilience</div><div class="tag">Chelsea · Battersea</div></div></div>
+
+<div id="routecard" class="ui card"><div class="l">Normal route · A&amp;E → Fire Station</div><div class="v">11.3 min<small>3.7 km</small></div></div>
+
+<div id="alert" class="ui"><div class="dot"></div><span id="alertText">BATTERSEA BRIDGE · TIDAL FLOODING</span></div>
+
+<div id="stats" class="ui">
+  <div class="row"><div class="s card"><div class="l">Normal</div><div class="v">11.3<span style="font-size:20px;color:#8FA3C8"> min</span></div></div><div class="s card"><div class="l">Detour</div><div class="v" style="color:#3DD9FF">17.1<span style="font-size:20px;color:#8FA3C8"> min</span></div></div></div>
+  <div id="impact" class="card"><div class="l">Route impact</div><div class="v" id="impactV">+0 MIN</div><div class="sub">+1.5 km · via Wandsworth Bridge</div></div>
+</div>
+
+<div id="claude" class="ui card"><div class="h"><div class="star">✦</div>Claude assessment</div><div class="body" id="claudeBody"></div></div>
+
+<div id="caption" class="ui"><div class="k" id="capK"></div><div class="t" id="capT"></div></div>
+<div id="disc" class="ui">Real routes: OpenRouteService · Albert Bridge closure: TfL<br>Flooding: simulated demo scenario</div>
+
+<div id="outro" class="ui"><div class="big grad">RouteResilience</div><div class="sub">See the detour before the crew does.</div><div class="pills"><div class="pill">Softr</div><div class="pill">Claude</div><div class="pill">OpenRouteService</div></div></div>
+<div id="fade" class="ui"></div>
+</div>
+<script src="data.js"></script>
+<script>
+// ---------- easing ----------
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const E={
+ lin:t=>t,
+ inOutCubic:t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,
+ outExpo:t=>t===1?1:1-Math.pow(2,-10*t),
+ inOutExpo:t=>t===0?0:t===1?1:t<.5?Math.pow(2,20*t-10)/2:(2-Math.pow(2,-20*t+10))/2,
+ outBack:t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)},
+ outQuint:t=>1-Math.pow(1-t,5),
+ inOutQuart:t=>t<.5?8*t*t*t*t:1-Math.pow(-2*t+2,4)/2,
+ outElastic:t=>{const c4=(2*Math.PI)/3;return t===0?0:t===1?1:Math.pow(2,-10*t)*Math.sin((t*10-.75)*c4)+1}
+};
+const seg=(t,a,b,ease=E.inOutCubic)=>ease(clamp((t-a)/(b-a)));
+
+// ---------- projection ----------
+const LON0=-0.176,LAT0=51.4755,KX=Math.cos(LAT0*Math.PI/180)*111320,KY=110574;
+const M=([lon,lat])=>[(lon-LON0)*KX,-(lat-LAT0)*KY];
+const S0=0.34;
+let CAM={cx:0,cy:0,z:1,r:0};
+function P(m){const k=CAM.z*S0,c=Math.cos(CAM.r),s=Math.sin(CAM.r),dx=m[0]-CAM.cx,dy=m[1]-CAM.cy;return[960+(dx*c-dy*s)*k,540+(dx*s+dy*c)*k]}
+const PL=ll=>P(M(ll));
+const dPath=pts=>pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join('');
+function smooth(pts){let d='M'+pts[0].join(',');for(let i=0;i<pts.length-1;i++){const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;const c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6],c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];d+=`C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`}return d}
+
+// ---------- geography (stylised) ----------
+const THAMES=[[-0.2050,51.4600],[-0.1960,51.4625],[-0.1885,51.4657],[-0.1856,51.4700],[-0.1838,51.4742],[-0.1820,51.4772],[-0.1790,51.4792],[-0.1758,51.4804],[-0.1725,51.4811],[-0.1695,51.4816],[-0.1665,51.4821],[-0.1620,51.4827],[-0.1560,51.4836],[-0.1501,51.4846],[-0.1450,51.4851],[-0.1390,51.4862],[-0.1300,51.4880]];
+const PARK=[[-0.1638,51.4818],[-0.1600,51.4826],[-0.1545,51.4833],[-0.1500,51.4830],[-0.1478,51.4812],[-0.1482,51.4770],[-0.1515,51.4750],[-0.1590,51.4745],[-0.1635,51.4760],[-0.1646,51.4790]];
+const SITES=[
+ {n:'Chelsea & Westminster A&E',ll:[-0.18162,51.484309],main:1,ic:'H',col:'#FF5C7A',dx:-1},
+ {n:'Battersea Fire Station',ll:[-0.168992,51.467306],main:1,ic:'F',col:'#FFB020',dx:1},
+ {n:'Royal Brompton',ll:[-0.1707,51.4894]},{n:'Chelsea Fire Station',ll:[-0.17029,51.48715]},
+ {n:'Battersea Park',ll:[-0.1573,51.4793]},{n:'Power Station',ll:[-0.14472,51.48167]},{n:'Clapham Junction',ll:[-0.1714,51.4642]}];
+const BR=[{n:'Wandsworth Br.',ll:[-0.1885,51.4657]},{n:'Battersea Br.',ll:[-0.1725,51.4811]},{n:'Albert Br.',ll:[-0.1665,51.4818]},{n:'Chelsea Br.',ll:[-0.1501,51.4846]}];
+const NORMAL=DATA.normal.map(M), DETOUR=DATA.detour.map(M);
+const BLOCKS=[['batt',DATA.blocks.batt,0],['cw1',DATA.blocks.cw1,.25],['cw2',DATA.blocks.cw2,.4],['albert',DATA.blocks.albert,.55]].map(([k,p,d])=>({k,p:p.map(M),d}));
+
+// bbox helpers
+function bbox(pts){let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;for(const[x,y]of pts){x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y)}return{cx:(x0+x1)/2,cy:(y0+y1)/2,w:x1-x0,h:y1-y0}}
+const bN=bbox(NORMAL),bD=bbox(DETOUR.concat(NORMAL));
+const BB=M([-0.1725,51.4811]);
+const fitZ=(b,W=1250,H=820)=>Math.min(W/(b.w*S0),H/(b.h*S0));
+
+// ---------- camera keyframes ----------
+const K=[
+ {t:0,   cx:BB[0],cy:BB[1],z:2.6,r:-0.10},
+ {t:3.0, cx:BB[0],cy:BB[1],z:2.2,r:-0.07,e:E.lin},
+ {t:6.6, cx:-600,cy:-150,z:1.0,r:0,e:E.inOutExpo},
+ {t:7.6, cx:bN.cx+120,cy:bN.cy,z:fitZ(bN)*.92,r:0,e:E.inOutCubic},
+ {t:11.4,cx:bN.cx+60,cy:bN.cy,z:fitZ(bN)*1.0,r:0.02,e:E.lin},
+ {t:12.6,cx:BB[0]+60,cy:BB[1]-40,z:3.3,r:0.05,e:E.outExpo},
+ {t:16.6,cx:BB[0]+20,cy:BB[1]-20,z:3.6,r:0.06,e:E.lin},
+ {t:18.4,cx:bD.cx+260,cy:bD.cy+10,z:fitZ(bD,1100,860),r:0,e:E.inOutExpo},
+ {t:23.4,cx:bD.cx+230,cy:bD.cy,z:fitZ(bD,1100,860)*1.04,r:0,e:E.lin},
+ {t:24.6,cx:bD.cx-150,cy:bD.cy+30,z:fitZ(bD,1100,860)*1.12,r:-0.015,e:E.inOutCubic},
+ {t:27.4,cx:bD.cx-170,cy:bD.cy+30,z:fitZ(bD,1100,860)*1.18,r:-0.02,e:E.lin},
+ {t:30,  cx:bD.cx-170,cy:bD.cy+30,z:fitZ(bD,1100,860)*1.5,r:-0.05,e:E.inOutCubic}];
+function camAt(t){for(let i=1;i<K.length;i++){if(t<=K[i].t){const a=K[i-1],b=K[i],u=(b.e||E.inOutCubic)(clamp((t-a.t)/(b.t-a.t)));return{cx:lerp(a.cx,b.cx,u),cy:lerp(a.cy,b.cy,u),z:Math.exp(lerp(Math.log(a.z),Math.log(b.z),u)),r:lerp(a.r,b.r,u)}}}const l=K[K.length-1];return{...l}}
+
+// ---------- helpers ----------
+const $=id=>document.getElementById(id);
+function show(el,o,tx=0,ty=0,sc=1,extra=''){el.style.opacity=o;el.style.transform=`${extra} translate(${tx}px,${ty}px) scale(${sc})`;el.style.display=o<=0.001?'none':''}
+function partial(pts,f){ // pts screen, return prefix by length fraction, plus head
+ if(f<=0)return{pts:[pts[0]],head:pts[0]};let L=[0];for(let i=1;i<pts.length;i++)L.push(L[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));
+ const T=L[L.length-1]*f;const out=[pts[0]];for(let i=1;i<pts.length;i++){if(L[i]<=T)out.push(pts[i]);else{const u=(T-L[i-1])/(L[i]-L[i-1]);const h=[lerp(pts[i-1][0],pts[i][0],u),lerp(pts[i-1][1],pts[i][1],u)];out.push(h);return{pts:out,head:h}}}return{pts:out,head:pts[pts.length-1]}}
+const introWord='RouteResilience';
+function mix(a,b,u){const pa=a.match(/\w\w/g).map(h=>parseInt(h,16)),pb=b.match(/\w\w/g).map(h=>parseInt(h,16));return 'rgb('+pa.map((v,i)=>Math.round(v+(pb[i]-v)*u)).join(',')+')'}
+$('introWord').innerHTML=[...introWord].map((c,i)=>{const u=i/(introWord.length-1);const col=u<.6?mix('ffffff','9fe8ff',u/.6):mix('9fe8ff','5b6cff',(u-.6)/.4);return `<span style="color:${col}">${c}</span>`}).join('');
+const CL="Battersea Fire Station is still reachable from Chelsea & Westminster A&E — but the fastest open crossing is now Wandsworth Bridge: +6 min, +1.5 km. Stage one crew north of the river until the tide drops.";
+
+function render(t){
+ CAM=camAt(t);const k=CAM.z*S0;
+ const g=[];
+ // river
+ const rv=THAMES.map(PL);const riverW=230*k;
+ const rDraw=seg(t,3.0,5.6,E.inOutCubic);
+ g.push(`<path d="${smooth(rv)}" stroke="#1B4F8F" stroke-opacity=".35" stroke-width="${riverW+26*k+6}" fill="none" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${1-rDraw}" filter="url(#soft)"/>`);
+ g.push(`<path d="${smooth(rv)}" stroke="url(#riverg)" stroke-width="${riverW}" fill="none" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${1-rDraw}"/>`);
+ g.push(`<path d="${smooth(rv)}" stroke="#4FA3FF" stroke-opacity=".35" stroke-width="1.5" fill="none" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${1-rDraw}"/>`);
+ // park
+ const pk=seg(t,4.2,5.4);g.push(`<path d="${smooth(PARK.concat([PARK[0]]).map(PL))}Z" fill="#0F2B26" fill-opacity="${.9*pk}" stroke="#1E5A4A" stroke-opacity="${pk}" stroke-width="1.5"/>`);
+ // bridges
+ const bo=seg(t,5.0,6.2);
+ BR.forEach(b=>{const p=PL(b.ll);g.push(`<text x="${p[0]}" y="${p[1]+riverW/2+26}" fill="#6F83AE" font-size="15" font-weight="600" text-anchor="middle" letter-spacing="1" opacity="${bo*(t>17.8&&b.n==='Wandsworth Br.'?0:1)}">${b.n.toUpperCase()}</text>`)});
+ // district labels
+ const dl=seg(t,4.6,6.4);
+ [['CHELSEA',[-0.1735,51.4880]],['BATTERSEA',[-0.1640,51.4700]],['FULHAM',[-0.1995,51.4745]]].forEach(([n,ll])=>{const p=PL(ll);g.push(`<text x="${p[0]}" y="${p[1]}" fill="#26365E" font-size="${Math.min(64,34*CAM.z/1.2+14)}" font-weight="900" letter-spacing="14" text-anchor="middle" opacity="${dl}">${n}</text>`)});
+ {const p=PL([-0.1585,51.4836]);g.push(`<text x="${p[0]}" y="${p[1]+6}" fill="#4B7FC2" font-size="18" font-style="italic" font-weight="600" letter-spacing="6" text-anchor="middle" opacity="${dl*.8}">RIVER THAMES</text>`)}
+
+ // blocks
+ const blk=seg(t,11.8,12.6,E.outBack);
+ BLOCKS.forEach(b=>{const a=seg(t,11.8+b.d,12.6+b.d,E.outQuint);if(a<=0)return;const pts=b.p.map(P);const c=pts.reduce((s,p)=>[s[0]+p[0]/pts.length,s[1]+p[1]/pts.length],[0,0]);
+   const pulse=.55+.25*Math.sin((t-12)*6+b.d*4);
+   g.push(`<g transform="translate(${c[0]},${c[1]}) scale(${lerp(.3,1,E.outBack(a))}) translate(${-c[0]},${-c[1]})"><path d="${dPath(pts)}Z" fill="#FF3B5C" fill-opacity="${.38*a*pulse+.12*a}" stroke="#FF6B85" stroke-width="2.5" stroke-opacity="${a}"/></g>`);
+   for(let r=0;r<2;r++){const ph=((t-12-b.d)*0.9+r*.5)%1;if(t>12+b.d&&ph>0){g.push(`<circle cx="${c[0]}" cy="${c[1]}" r="${20+ph*140*Math.min(1.6,k*2.2)}" fill="none" stroke="#FF3B5C" stroke-width="3" opacity="${(1-ph)*.6*a*(1-seg(t,22,24))}"/>`)}}
+ });
+ // normal route
+ const nD=seg(t,7.9,10.6,E.inOutCubic);
+ if(nD>0){const pts=NORMAL.map(P);const pr=partial(pts,nD);const broken=seg(t,13.2,14.2);
+   const col=broken>0?`rgb(${Math.round(lerp(234,255,broken))},${Math.round(lerp(240,70,broken))},${Math.round(lerp(255,95,broken))})`:'#EAF0FF';
+   const op=1-.72*seg(t,15.2,17.4);
+   g.push(`<path d="${dPath(pr.pts)}" stroke="${col}" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="${op}" ${broken>0?`stroke-dasharray="${lerp(1,18,broken)} ${lerp(0,14,broken)}"`:''} filter="url(#glow)"/>`);
+   if(nD<1)g.push(`<circle cx="${pr.head[0]}" cy="${pr.head[1]}" r="11" fill="#fff" filter="url(#glow)"/>`);
+   // X mark on Battersea Bridge
+   const x=seg(t,13.4,14.0,E.outBack);if(x>0){const c=PL([-0.17245,51.48106]);const s=26*x;g.push(`<g opacity="${1-seg(t,17,18)}"><circle cx="${c[0]}" cy="${c[1]}" r="${s*1.5}" fill="#FF3B5C"/><path d="M${c[0]-s*.55},${c[1]-s*.55}L${c[0]+s*.55},${c[1]+s*.55}M${c[0]+s*.55},${c[1]-s*.55}L${c[0]-s*.55},${c[1]+s*.55}" stroke="#fff" stroke-width="${7*x}" stroke-linecap="round"/></g>`)}
+ }
+ // detour
+ const dD=seg(t,18.0,21.4,E.inOutCubic);
+ if(dD>0){const pts=DETOUR.map(P);const pr=partial(pts,dD);
+   g.push(`<path d="${dPath(pr.pts)}" stroke="#3DD9FF" stroke-width="16" stroke-opacity=".25" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#soft)"/>`);
+   g.push(`<path d="${dPath(pr.pts)}" stroke="#3DD9FF" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>`);
+   const pulseR=11+3*Math.sin(t*10);
+   g.push(`<circle cx="${pr.head[0]}" cy="${pr.head[1]}" r="${pulseR}" fill="#fff" stroke="#3DD9FF" stroke-width="5" filter="url(#glow)"/>`);
+   // wandsworth tag
+   const wt=seg(t,19.6,20.4,E.outBack);if(wt>0){const c=PL([-0.1885,51.4657]);g.push(`<g transform="translate(${c[0]-210},${c[1]-18}) scale(${wt})"><rect width="190" height="40" rx="20" fill="#3DD9FF"/><text x="95" y="27" text-anchor="middle" font-size="17" font-weight="800" fill="#051226" letter-spacing="1">WANDSWORTH BR.</text></g>`)}
+ }
+ // sites
+ SITES.forEach((s,i)=>{const a=seg(t,4.6+i*.18,5.4+i*.18,E.outBack);if(a<=0)return;const p=PL(s.ll);
+   if(s.main){const hi=(t>7.6&&t<11.5)||(t>17.8&&t<24)?1:0;
+     g.push(`<g transform="translate(${p[0]},${p[1]}) scale(${a})"><circle r="${30+6*Math.sin(t*4)*hi}" fill="${s.col}" opacity=".18"/><circle r="17" fill="${s.col}" stroke="#fff" stroke-width="3.5"/><text y="6.5" text-anchor="middle" font-size="17" font-weight="900" fill="#fff">${s.ic}</text></g>`);
+     const lo=seg(t,5.6+i*.2,6.4+i*.2,E.outQuint);const w=s.n.length*11.2+34;const lx=s.dx<0?p[0]-w-32:p[0]+32;
+     g.push(`<g opacity="${lo}" transform="translate(${lx+(1-lo)*20*s.dx},${p[1]-21})"><rect width="${w}" height="42" rx="21" fill="rgba(13,19,38,.9)" stroke="${s.col}" stroke-opacity=".6"/><text x="${w/2}" y="27" text-anchor="middle" font-size="18" font-weight="700" fill="#EAF0FF">${s.n}</text></g>`);
+   } else {g.push(`<g transform="translate(${p[0]},${p[1]}) scale(${a})" opacity="${1-.5*seg(t,7.5,8.5)}"><circle r="7" fill="#8FA3C8"/><circle r="12" fill="none" stroke="#8FA3C8" stroke-opacity=".35" stroke-width="2"/></g>`)}
+ });
+ $('world').innerHTML=g.join('');
+
+ // map-level fx
+ const blur=lerp(10,0,seg(t,2.2,4.4));const dim=lerp(.35,1,seg(t,2.2,4.6))*(1-.65*seg(t,27.2,28.2));const blurOut=lerp(0,8,seg(t,27.2,28.4));
+ $('map').style.filter=`blur(${Math.max(blur,blurOut)}px) brightness(${dim})`;
+
+ // intro
+ const io=1-seg(t,2.5,3.2,E.inOutCubic);$('intro').style.opacity=io;$('intro').style.display=io<=0?'none':'flex';
+ [...$('introWord').children].forEach((sp,i)=>{const a=seg(t,.25+i*.045,.95+i*.045,E.outExpo);sp.style.transform=`translateY(${(1-a)*90}px) rotate(${(1-a)*8}deg)`;sp.style.opacity=a});
+ const is=seg(t,1.2,1.9,E.outQuint);$('introSub').style.opacity=is;$('introSub').style.transform=`translateY(${(1-is)*24}px)`;
+ $('intro').style.transform=`scale(${lerp(1,1.08,seg(t,2.4,3.2))})`;
+
+ // brand bar
+ const bb=seg(t,3.4,4.2,E.outQuint)*(1-seg(t,27.0,27.6));show($('brandbar'),bb,(1-bb)*-30);
+ show($('disc'),seg(t,3.6,4.4)*(1-seg(t,27,27.6)));
+
+ // captions
+ const caps=[[4.6,7.4,'The problem','Emergency routes depend on a<br>handful of Thames bridges.'],[8.2,11.4,'Normal day','A&amp;E to fire station: 11 minutes.'],[12.8,17.0,'Incident','Tidal flooding closes<br>Battersea Bridge and Cheyne Walk.'],[18.6,23.2,'Reroute','OpenRouteService finds the<br>fastest route around every block.']];
+ let cO=0;for(const[a,b,kk,tt]of caps){if(t>=a-.1&&t<=b+.1){cO=seg(t,a,a+.55,E.outQuint)*(1-seg(t,b-.4,b));$('capK').textContent=kk;$('capT').innerHTML=tt;const yy=(1-seg(t,a,a+.55,E.outQuint))*30;$('caption').style.transform=`translateY(${yy}px)`;}}
+ $('caption').style.opacity=cO;$('caption').style.display=cO<=0?'none':'';
+
+ // route card
+ const rc=seg(t,9.4,10.1,E.outBack)*(1-seg(t,12.0,12.5));show($('routecard'),rc,(1-rc)*40,0,lerp(.9,1,rc));
+ // alert
+ const al=seg(t,12.6,13.2,E.outBack)*(1-seg(t,17.2,17.8));$('alert').style.opacity=al;$('alert').style.display=al<=0?'none':'flex';$('alert').style.transform=`translateX(-50%) translateY(${(1-al)*-40}px) scale(${lerp(.7,1,al)})`;
+ $('alert').querySelector('.dot').style.opacity=.5+.5*Math.sin(t*14);
+ // flash
+ $('flash').style.opacity=.35*Math.max(0,1-Math.abs(t-12.25)/0.35);
+ // stats
+ const st=seg(t,20.2,20.9,E.outBack)*(1-seg(t,27,27.6));show($('stats'),st,(1-st)*60,0,lerp(.92,1,st));
+ const iv=seg(t,20.6,22.2,E.outExpo);const n=Math.round(iv*6);$('impactV').textContent=`+${n} MIN`;
+ $('impact').style.transform=`scale(${1+.06*Math.max(0,1-Math.abs(t-22.3)/0.3)})`;
+ // claude
+ const cl=seg(t,23.6,24.3,E.outQuint)*(1-seg(t,27,27.5));show($('claude'),cl,(1-cl)*80);
+ const chars=Math.floor(seg(t,24.1,26.7,E.lin)*CL.length);$('claudeBody').innerHTML=CL.slice(0,chars).replace(/&/g,'&amp;')+(t<27?`<span class="cur" style="opacity:${Math.sin(t*12)>0?1:0}"></span>`:'');
+ // outro
+ const oo=seg(t,27.6,28.4,E.outExpo);$('outro').style.opacity=oo;$('outro').style.display=oo<=0?'none':'flex';$('outro').style.transform=`scale(${lerp(.94,1,oo)})`;
+ [...document.querySelectorAll('#outro .pill')].forEach((p,i)=>{const a=seg(t,28.1+i*.12,28.7+i*.12,E.outBack);p.style.opacity=a;p.style.transform=`translateY(${(1-a)*20}px)`});
+ // fades
+ $('fade').style.opacity=Math.max(1-seg(t,0,.35),seg(t,29.55,30));
+}
+window.render=render;render(0);
+</script></body></html>

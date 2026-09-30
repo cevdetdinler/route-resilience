@@ -1,0 +1,261 @@
+{
+  "database": "RouteResilience (Softr Tables)",
+  "tables": [
+    {
+      "name": "Road Blocks",
+      "tableId": "YOYgBl3wiQoyGY",
+      "primaryField": "SOSha",
+      "fields": [
+        {
+          "id": "SOSha",
+          "name": "name",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "XPGtI",
+          "name": "description",
+          "type": "LONG_TEXT"
+        },
+        {
+          "id": "D6wAy",
+          "name": "status",
+          "type": "SELECT",
+          "choices": [
+            "Active closure",
+            "Active disruption",
+            "Cleared"
+          ]
+        },
+        {
+          "id": "X6GoZ",
+          "name": "current_update",
+          "type": "LONG_TEXT"
+        },
+        {
+          "id": "psx2W",
+          "name": "avoid_polygon_json",
+          "type": "LONG_TEXT"
+        },
+        {
+          "id": "aamYX",
+          "name": "source",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "VQqZP",
+          "name": "severity",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "9o3dk",
+          "name": "tfl_status",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "8G4x9",
+          "name": "closure",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "4g06T",
+          "name": "directions",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "aPCMT",
+          "name": "start_datetime",
+          "type": "DATETIME"
+        },
+        {
+          "id": "Ii0cJ",
+          "name": "end_datetime",
+          "type": "DATETIME"
+        },
+        {
+          "id": "7z9r0",
+          "name": "last_modified",
+          "type": "DATETIME"
+        },
+        {
+          "id": "mBBDb",
+          "name": "longitude",
+          "type": "NUMBER"
+        },
+        {
+          "id": "brfV7",
+          "name": "latitude",
+          "type": "NUMBER"
+        },
+        {
+          "id": "QqgBQ",
+          "name": "snapshot_timestamp",
+          "type": "DATETIME"
+        }
+      ]
+    },
+    {
+      "name": "Locations",
+      "tableId": "n5GFgExAjEDjC9",
+      "primaryField": "MC0Z3",
+      "fields": [
+        {
+          "id": "MC0Z3",
+          "name": "name",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "eDuJe",
+          "name": "category",
+          "type": "SELECT",
+          "choices": [
+            "Hospital",
+            "Fire station",
+            "Transport hub",
+            "Landmark"
+          ]
+        },
+        {
+          "id": "HKaFr",
+          "name": "side",
+          "type": "SELECT",
+          "choices": [
+            "North bank (Chelsea)",
+            "South bank (Battersea)"
+          ]
+        },
+        {
+          "id": "TV66B",
+          "name": "address",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "veTkh",
+          "name": "latitude",
+          "type": "NUMBER"
+        },
+        {
+          "id": "cOgGW",
+          "name": "longitude",
+          "type": "NUMBER"
+        },
+        {
+          "id": "cx9n0",
+          "name": "coord_source",
+          "type": "SINGLE_LINE_TEXT"
+        }
+      ]
+    },
+    {
+      "name": "Route Checks",
+      "tableId": "MMLYdhIW9I6qzE",
+      "primaryField": "MpoE5",
+      "fields": [
+        {
+          "id": "MpoE5",
+          "name": "label",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "HTNn8",
+          "name": "status",
+          "type": "SELECT",
+          "choices": [
+            "Pending",
+            "Complete",
+            "Error"
+          ]
+        },
+        {
+          "id": "GdiVs",
+          "name": "from_name",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "MgATx",
+          "name": "from_lat",
+          "type": "NUMBER"
+        },
+        {
+          "id": "Y1kGI",
+          "name": "from_lon",
+          "type": "NUMBER"
+        },
+        {
+          "id": "tttQp",
+          "name": "to_name",
+          "type": "SINGLE_LINE_TEXT"
+        },
+        {
+          "id": "M72A0",
+          "name": "to_lat",
+          "type": "NUMBER"
+        },
+        {
+          "id": "dhC3P",
+          "name": "to_lon",
+          "type": "NUMBER"
+        },
+        {
+          "id": "isi0y",
+          "name": "normal_duration_min",
+          "type": "NUMBER"
+        },
+        {
+          "id": "oJRCH",
+          "name": "normal_distance_km",
+          "type": "NUMBER"
+        },
+        {
+          "id": "9PrvG",
+          "name": "detour_duration_min",
+          "type": "NUMBER"
+        },
+        {
+          "id": "Wt9xP",
+          "name": "detour_distance_km",
+          "type": "NUMBER"
+        },
+        {
+          "id": "ONyB5",
+          "name": "delay_min",
+          "type": "NUMBER"
+        },
+        {
+          "id": "0kaHV",
+          "name": "normal_route_json",
+          "type": "LONG_TEXT"
+        },
+        {
+          "id": "J3UnQ",
+          "name": "detour_route_json",
+          "type": "LONG_TEXT"
+        },
+        {
+          "id": "q886r",
+          "name": "blocks_avoided",
+          "type": "LONG_TEXT"
+        },
+        {
+          "id": "Vr7bX",
+          "name": "assessment",
+          "type": "LONG_TEXT"
+        },
+        {
+          "id": "kcNwI",
+          "name": "error",
+          "type": "LONG_TEXT"
+        },
+        {
+          "id": "wrj14",
+          "name": "checked_at",
+          "type": "CREATED_AT"
+        },
+        {
+          "id": "zq7oC",
+          "name": "blocks_signature",
+          "type": "LONG_TEXT"
+        }
+      ]
+    }
+  ]
+}

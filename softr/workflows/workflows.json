@@ -1,0 +1,83 @@
+{
+  "_note": "Export of the two Softr Workflows. The OpenRouteService API key has been replaced with <ORS_API_KEY>; set your own in the 'ors_key' input of the custom-code step. Code for that step lives in route-with-openrouteservice.js.",
+  "systemPrompt": "You write short operational notes for an emergency-services route resilience demo in Chelsea and Battersea, London. This is a DEMONSTRATION SCENARIO, not a live emergency. Use only the figures you are given; never invent roads, times, incidents or numbers. Plain British English, no markdown headings, no bullet lists, no emojis.",
+  "workflows": [
+    {
+      "title": "Check route instantly",
+      "id": "31b7b65c-3543-49a4-9d55-06abc56815c9",
+      "trigger": {
+        "type": "WEBHOOK",
+        "corsAllowedOrigins": ["https://jules42736.softr.app", "https://jules42736.preview.softr.app", "https://studio.softr.io"],
+        "body": ["from_name", "from_lat", "from_lon", "to_name", "to_lat", "to_lon"]
+      },
+      "steps": [
+        { "title": "Get road blocks", "type": "SOFTR_TABLES_GET_RECORDS", "table": "Road Blocks" },
+        {
+          "title": "Route with OpenRouteService", "type": "CUSTOM_CODE", "language": "JAVASCRIPT", "code": "route-with-openrouteservice.js",
+          "inputData": {
+            "ors_key": "<ORS_API_KEY>",
+            "records": "{Get road blocks.records}",
+            "from_lat": "{trigger.body.from_lat}", "from_lon": "{trigger.body.from_lon}",
+            "to_lat": "{trigger.body.to_lat}", "to_lon": "{trigger.body.to_lon}"
+          }
+        },
+        {
+          "title": "Save route check", "type": "SOFTR_TABLES_ADD_RECORD", "table": "Route Checks",
+          "fields": {
+            "label": "{from_name} → {to_name}", "status": "{route.status}",
+            "from_name": "{from_name}", "from_lat": "{from_lat}", "from_lon": "{from_lon}",
+            "to_name": "{to_name}", "to_lat": "{to_lat}", "to_lon": "{to_lon}",
+            "normal_duration_min": "{route.normal_minutes}", "normal_distance_km": "{route.normal_km}",
+            "detour_duration_min": "{route.detour_minutes}", "detour_distance_km": "{route.detour_km}",
+            "delay_min": "{route.delay_minutes}",
+            "normal_route_json": "{route.normal_geojson}", "detour_route_json": "{route.detour_geojson}",
+            "blocks_avoided": "{route.blocks_on_normal_route}", "blocks_signature": "{route.blocks_signature}",
+            "error": "{route.error}"
+          }
+        },
+        { "title": "Reply to page with record ID", "type": "RESPONDED_TO_WEBHOOK", "statusCode": 200, "responseType": "APPLICATION_JSON" },
+        {
+          "title": "Write operational assessment", "type": "SOFTR_AI_SEND_PROMPT", "model": "anthropic-claude-haiku-4-5",
+          "prompt": "Route check: {from_name} to {to_name}.\nRouting status: {route.status}\nRouting error (if any): {route.error}\nActive road blocks: {route.active_blocks}\nBlocks crossed by the normal route: {route.blocks_on_normal_route}\nNormal route: {route.normal_minutes} min, {route.normal_km} km\nRoute avoiding active blocks: {route.detour_minutes} min, {route.detour_km} km\nDelay from avoiding blocks: {route.delay_minutes} min\n\nWrite 2-3 sentences for a control-room dispatcher. If routing status is Error, say in one sentence that the route could not be calculated and why, and stop. Otherwise: say whether the normal route passes through an active block zone (name them), state the extra time and distance of the safe route, and give one practical dispatch consideration that follows directly from those figures. Times are free-flow driving estimates from OpenRouteService and exclude live traffic; mention this briefly."
+        },
+        { "title": "Save assessment", "type": "SOFTR_TABLES_UPDATE_RECORD", "table": "Route Checks", "record": "{Save route check.id}", "fields": { "assessment": "{Write operational assessment.result}" } }
+      ]
+    },
+    {
+      "title": "Check route impact",
+      "id": "67fe5989-e480-438f-9fe8-5935636e7d5e",
+      "_role": "Fallback: runs when the page saves a Pending route check (used if the webhook can't be reached).",
+      "trigger": { "type": "SOFTR_TABLES_NEW_RECORD", "table": "Route Checks" },
+      "steps": [
+        { "title": "Get road blocks", "type": "SOFTR_TABLES_GET_RECORDS", "table": "Road Blocks" },
+        {
+          "title": "Route with OpenRouteService", "type": "CUSTOM_CODE", "language": "JAVASCRIPT", "code": "route-with-openrouteservice.js (plus the Pending guard at the top)",
+          "inputData": {
+            "ors_key": "<ORS_API_KEY>",
+            "records": "{Get road blocks.records}",
+            "from_lat": "{trigger.fields.from_lat}", "from_lon": "{trigger.fields.from_lon}",
+            "to_lat": "{trigger.fields.to_lat}", "to_lon": "{trigger.fields.to_lon}",
+            "trigger_status": "{trigger.fields.status.label}"
+          }
+        },
+        {
+          "title": "Save routes (before AI)", "type": "SOFTR_TABLES_UPDATE_RECORD", "table": "Route Checks", "record": "{trigger.id}",
+          "fields": {
+            "status": "{route.status}",
+            "normal_duration_min": "{route.normal_minutes}", "normal_distance_km": "{route.normal_km}",
+            "detour_duration_min": "{route.detour_minutes}", "detour_distance_km": "{route.detour_km}",
+            "delay_min": "{route.delay_minutes}",
+            "normal_route_json": "{route.normal_geojson}", "detour_route_json": "{route.detour_geojson}",
+            "blocks_avoided": "{route.blocks_on_normal_route}", "blocks_signature": "{route.blocks_signature}",
+            "error": "{route.error}"
+          }
+        },
+        {
+          "title": "Write operational assessment", "type": "SOFTR_AI_SEND_PROMPT", "model": "anthropic-claude-haiku-4-5",
+          "prompt": "Same as 'Check route instantly', except: \"say whether the normal route is affected by an active block (name it)\"."
+        },
+        { "title": "Save results to route check", "type": "SOFTR_TABLES_UPDATE_RECORD", "table": "Route Checks", "record": "{trigger.id}", "fields": { "assessment": "{Write operational assessment.result}" } }
+      ]
+    }
+  ]
+}
