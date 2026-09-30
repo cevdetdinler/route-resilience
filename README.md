@@ -2,7 +2,7 @@
 
 **See the detour before the crew does.**
 
-RouteResilience shows emergency planners how road closures and flooding change the route between critical sites in Chelsea and Battersea, London. Mark a road block as active and the app compares the normal route with the fastest route that avoids every active block. It shows the extra minutes and kilometres on a map, and Claude writes a short note for the control room.
+RouteResilience shows emergency planners how road closures and flooding change the route between critical sites in Chelsea and Battersea, London. Mark a road block as active and the app compares the normal route with the fastest route that avoids every active block. It shows the extra minutes and kilometres on a map.
 
 Built at the **Claude x Softr AI Build Day**, London, 30 September 2026.
 
